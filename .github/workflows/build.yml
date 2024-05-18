@@ -1,4 +1,4 @@
-name: Build and Test Kivy App
+name: Build Kivy Android APK
 
 on:
   push:
@@ -13,12 +13,6 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v2
 
-      - name: Set up Java
-        uses: actions/setup-java@v1
-        with:
-          java-version: '11'
-          distribution: 'adopt'
-
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -27,15 +21,20 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libncurses5 libtinfo5 libtiff5 liblapack-dev libblas-dev gfortran wget unzip
+          sudo apt-get install -y libncurses5 libtinfo5 libtiff5 liblapack-dev libblas-dev gfortran wget unzip openjdk-8-jdk zlib1g-dev
 
-      - name: Install Android SDK
+      - name: Install Buildozer and Cython
+        run: |
+          pip install cython buildozer
+
+      - name: Install Android SDK and NDK
         run: |
           wget https://dl.google.com/android/repository/commandlinetools-linux-7302050_latest.zip -O cmdline-tools.zip
           mkdir -p $HOME/Android/Sdk/cmdline-tools
           unzip cmdline-tools.zip -d $HOME/Android/Sdk/cmdline-tools
           mv $HOME/Android/Sdk/cmdline-tools/cmdline-tools $HOME/Android/Sdk/cmdline-tools/latest
           yes | $HOME/Android/Sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=$HOME/Android/Sdk "platform-tools" "platforms;android-30" "build-tools;30.0.3"
+          yes | $HOME/Android/Sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=$HOME/Android/Sdk "ndk;21.3.6528147"
 
       - name: Set environment variables
         run: |
@@ -53,15 +52,12 @@ jobs:
           fi
           echo "AIDL found at $HOME/Android/Sdk/build-tools/30.0.3/aidl"
 
-      - name: Install Buildozer and Cython
-        run: |
-          python -m pip install --upgrade pip
-          pip install cython buildozer
-
-      - name: Install Kivy and other dependencies
-        run: |
-          pip install kivy[base] kivymd tensorflow numpy pandas
-
-      - name: Build with Buildozer
+      - name: Build the APK with Buildozer
         run: |
           buildozer android debug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: PredictionApp-debug.apk
+          path: ./bin/*.apk
