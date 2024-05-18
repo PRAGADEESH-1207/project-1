@@ -1,4 +1,4 @@
-name: Build APK
+name: Build Android APK
 
 on:
   push:
@@ -10,24 +10,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Check out the repository
         uses: actions/checkout@v2
 
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: '3.8'
 
-      - name: Install Buildozer
+      - name: Install dependencies
         run: |
-          pip install buildozer
+          python -m pip install --upgrade pip
+          pip install cython buildozer
 
-      - name: Build APK
+      - name: Build with Buildozer
         run: |
           buildozer android debug
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v2
-        with:
-          name: app-debug
-          path: bin/*.apk
