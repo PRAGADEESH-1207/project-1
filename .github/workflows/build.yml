@@ -27,9 +27,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libncurses5 libtinfo5 libtiff5
-          sudo apt-get install -y liblapack-dev libblas-dev gfortran
-          sudo apt-get install -y wget unzip
+          sudo apt-get install -y libncurses5 libtinfo5 libtiff5 liblapack-dev libblas-dev gfortran wget unzip
 
       - name: Install Android SDK
         run: |
@@ -46,6 +44,14 @@ jobs:
           echo "$HOME/Android/Sdk/cmdline-tools/latest/bin" >> $GITHUB_PATH
           echo "$HOME/Android/Sdk/platform-tools" >> $GITHUB_PATH
           echo "$HOME/Android/Sdk/build-tools/30.0.3" >> $GITHUB_PATH
+
+      - name: Verify AIDL installation
+        run: |
+          if [ ! -f "$HOME/Android/Sdk/build-tools/30.0.3/aidl" ]; then
+            echo "AIDL not found!"
+            exit 1
+          fi
+          echo "AIDL found at $HOME/Android/Sdk/build-tools/30.0.3/aidl"
 
       - name: Install Buildozer and Cython
         run: |
