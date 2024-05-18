@@ -1,10 +1,10 @@
 [app]
 
 # (str) Title of your application
-title = demoapp
+title =  FRUITS & VEGETABLES RECOGNITION SYSTEM
 
 # (str) Package name
-package.name = demoapp
+package.name = fruits_vegetables_recognition
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test
@@ -19,10 +19,10 @@ source.include_exts = py,png,jpg,kv,atlas
 #source.include_patterns = assets/*,images/*.png
 
 # (list) Source files to exclude (let empty to not exclude anything)
-#source.exclude_exts = spec
+#source.exclude_exts = []
 
 # (list) List of directory to exclude (let empty to not exclude anything)
-#source.exclude_dirs = tests, bin, venv
+#source.exclude_dirs = []
 
 # (list) List of exclusions using pattern matching
 # Do not prefix with './'
@@ -37,17 +37,22 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy==2.1.0,kivymd,pillow
+requirements = python3
+    - kivy
+    - kivymd
+    - tensorflow
+    - numpy
+    - pandas
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
 # requirements.source.kivy = ../../kivy
 
 # (str) Presplash of the application
-presplash.filename = %(source.dir)s/data/newsplash.png
+presplash.filename = 'thomas-le-pRJhn4MbsMM-unsplash.jpg'
 
 # (str) Icon of the application
-icon.filename = %(source.dir)s/data/newsplash.png
+icon.filename = 'thomas-le-pRJhn4MbsMM-unsplash.jpg'
 
 # (list) Supported orientations
 # Valid options are: landscape, portrait, portrait-reverse or landscape-reverse
@@ -74,7 +79,7 @@ osx.kivy_version = 1.9.1
 #
 
 # (bool) Indicate if the application should be fullscreen or not
-fullscreen = 0
+fullscreen = False
 
 # (string) Presplash background color (for android toolchain)
 # Supported formats are: #RRGGBB #AARRGGBB or one of the following names:
