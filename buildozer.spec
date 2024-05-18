@@ -37,13 +37,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3
-    - kivy
-    - kivymd
-    - tensorflow
-    - numpy
-    - pandas
-
+requirements =python3,kivy,kivymd,tensorflow,numpy,pandas
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
 # requirements.source.kivy = ../../kivy
@@ -410,7 +404,7 @@ ios.codesign.allowed = false
 log_level = 2
 
 # (int) Display warning if buildozer is run as root (0 = False, 1 = True)
-warn_on_root = 1
+warn_on_root = True
 
 # (str) Path to build artifact storage, absolute or relative to spec file
 # build_dir = ./.buildozer
